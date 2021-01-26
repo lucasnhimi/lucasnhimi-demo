@@ -40,11 +40,11 @@ const Layout = ({ children }) => {
                 <Icon name="save" size="24px" mr={8} />
               </Link>
             </NextLink>
-            <NextLink href="/sites" passHref>
+            <NextLink href="/" passHref>
               <Link mr={4}>Home</Link>
             </NextLink>
-            <NextLink href="/feedback" passHref>
-              <Link>Projetos</Link>
+            <NextLink href="/series" passHref>
+              <Link>Séries</Link>
             </NextLink>
           </Flex>
           <Flex justifyContent="center" alignItems="center">
