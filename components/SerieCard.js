@@ -1,5 +1,5 @@
 import { Box, Badge, Image } from '@chakra-ui/react';
-import { StarIcon } from '@chakra-ui/icons'
+import { StarIcon } from '@chakra-ui/icons';
 
 function SerieCard({ serie }) {
   return (
@@ -32,21 +32,16 @@ function SerieCard({ serie }) {
           {serie.name}
         </Box>
 
-        <Box>
-          {serie.description}          
-        </Box>
+        <Box>{serie.description}</Box>
 
         <Box d="flex" mt="2" alignItems="center">
           {Array(5)
-            .fill("")
+            .fill('')
             .map((_, i) => (
-              <StarIcon
-                key={i}
-                color={i < 3 ? "teal.500" : "gray.300"}
-              />
+              <StarIcon key={i} color={i < 3 ? 'teal.500' : 'gray.300'} />
             ))}
           <Box as="span" ml="2" color="gray.600" fontSize="sm">
-            {'34'} reviews
+            34 reviews
           </Box>
         </Box>
       </Box>

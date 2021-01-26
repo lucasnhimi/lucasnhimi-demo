@@ -2,9 +2,7 @@ import SerieView from '@/components/SerieView';
 import { getAllFullSeries } from '@/lib/dato-cms';
 import Layout from '@/components/Layout';
 
-
 export default function StagePage({ serie, allSeries }) {
-
   return (
     <Layout>
       <SerieView serie={serie} allSeries={allSeries} />
@@ -19,16 +17,16 @@ export const getStaticProps = async ({ params }) => {
 
   if (!serie) {
     return {
-      notFound: true
+      notFound: true,
     };
   }
 
   return {
     props: {
       serie,
-      allSeries: series
+      allSeries: series,
     },
-    revalidate: 60
+    revalidate: 60,
   };
 };
 
@@ -38,6 +36,6 @@ export const getStaticPaths = async () => {
 
   return {
     paths: slugs,
-    fallback: false
+    fallback: false,
   };
 };

@@ -1,25 +1,35 @@
 import React from 'react';
 import NextLink from 'next/link';
-import { Box, Button, Flex, Link, Avatar, Icon, useColorMode, useColorModeValue } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Flex,
+  Link,
+  Avatar,
+  Icon,
+  useColorMode,
+  useColorModeValue,
+} from '@chakra-ui/react';
+import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 
 import useAuth from '@/hooks/useAuth';
 import Footer from './Footer';
 
 const Layout = ({ children }) => {
   const { user } = useAuth();
-  const { colorMode, toggleColorMode } = useColorMode()
-  const bg = useColorModeValue("#FFFFFF", "#1A202C")
-  const color = useColorModeValue("#1A202C", "#EDEEEE")
-  const borderColor = useColorModeValue("#DDD", "#27272A") 
-  const bgContent = useColorModeValue("#F4F6F8", "#1A202C")
+  const { colorMode, toggleColorMode } = useColorMode();
+  const bg = useColorModeValue('#FFFFFF', '#1A202C');
+  const color = useColorModeValue('#1A202C', '#EDEEEE');
+  const borderColor = useColorModeValue('#DDD', '#27272A');
+  const bgContent = useColorModeValue('#F4F6F8', '#1A202C');
 
   return (
     <Box minH="100vh" bgColor={bgContent}>
       <Flex
         mb={[8, 16]}
-        w="full"  
+        w="full"
         position="fixed"
-        zIndex={99999}            
+        zIndex={99999}
         bgColor={bg}
         color={color}
         borderBottom={`1px solid ${borderColor}`}
@@ -33,8 +43,7 @@ const Layout = ({ children }) => {
           margin="0 auto"
           w="full"
           px={8}
-          h="60px"     
-             
+          h="60px"
         >
           <Flex align="center">
             <NextLink href="/" passHref>
@@ -50,14 +59,16 @@ const Layout = ({ children }) => {
             </NextLink>
           </Flex>
           <Flex justifyContent="center" alignItems="center">
-            <Button onClick={toggleColorMode}>
-              {colorMode === "light" ? "Escuro" : "Claro"}
-            </Button>  
+            {colorMode === 'light' ? (
+              <MoonIcon w={6} h={6} onClick={toggleColorMode} />
+            ) : (
+              <SunIcon w={6} h={6} onClick={toggleColorMode} />
+            )}
           </Flex>
         </Flex>
       </Flex>
       <Flex direction="column" pt={62}>
-        {children}        
+        {children}
       </Flex>
     </Box>
   );

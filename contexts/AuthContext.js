@@ -1,9 +1,18 @@
-import { useState, useEffect, useContext, createContext } from 'react';
+import { useState, createContext } from 'react';
 import Router from 'next/router';
 import firebase from '@/lib/firebase';
 import { createUser } from '@/lib/db';
 
 const AuthContext = createContext();
+
+const formatUser = async (user) => ({
+  uid: user.uid,
+  email: user.email,
+  name: user.displayName,
+  token: user.xa,
+  provider: user.providerData[0].providerId,
+  photoUrl: user.photoURL,
+});
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
@@ -11,15 +20,14 @@ export function AuthProvider({ children }) {
 
   const handleUser = async (currentUser) => {
     if (currentUser) {
-      const user = await formatUser(currentUser);
-      createUser(user.uid, user);
-      setUser(user);
-      return user;
-    } else {
-      setUser(false);
-      return false;
+      const formatedUser = await formatUser(currentUser);
+      createUser(formatedUser.uid, formatedUser);
+      setUser(formatedUser);
+      return formatedUser;
     }
-  }
+    setUser(false);
+    return false;
+  };
 
   const signin = () => {
     try {
@@ -39,7 +47,7 @@ export function AuthProvider({ children }) {
   const signout = () => {
     try {
       Router.push('/');
-  
+
       return firebase
         .auth()
         .signOut()
@@ -49,25 +57,19 @@ export function AuthProvider({ children }) {
     }
   };
 
-  return <AuthContext.Provider value={{
-    user,
-    loading,
-    signin,
-    signout
-  }}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider
+      value={{
+        user,
+        loading,
+        signin,
+        signout,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
 }
-
-const formatUser = async (user) => {
-  return {
-    uid: user.uid,
-    email: user.email,
-    name: user.displayName,
-    token: user.xa,
-    provider: user.providerData[0].providerId,
-    photoUrl: user.photoURL,
-  };
-};
-
 
 export const AuthConsumer = AuthContext.Consumer;
 
