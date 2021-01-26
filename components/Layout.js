@@ -10,10 +10,11 @@ const Layout = ({ children }) => {
   const { colorMode, toggleColorMode } = useColorMode()
   const bg = useColorModeValue("#FFFFFF", "#1A202C")
   const color = useColorModeValue("#1A202C", "#EDEEEE")
-
+  const borderColor = useColorModeValue("#DDD", "#27272A") 
+  const bgContent = useColorModeValue("#F4F6F8", "#1A202C")
 
   return (
-    <Box minH="100vh">
+    <Box minH="100vh" bgColor={bgContent}>
       <Flex
         mb={[8, 16]}
         w="full"  
@@ -21,6 +22,7 @@ const Layout = ({ children }) => {
         zIndex={99999}            
         bgColor={bg}
         color={color}
+        borderBottom={`1px solid ${borderColor}`}
       >
         <Flex
           alignItems="center"
@@ -54,10 +56,9 @@ const Layout = ({ children }) => {
           </Flex>
         </Flex>
       </Flex>
-      <Flex margin="66px auto" direction="column" py={4}>
+      <Flex direction="column" pt={62}>
         {children}        
       </Flex>
-      <Footer />
     </Box>
   );
 };
