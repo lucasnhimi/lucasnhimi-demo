@@ -15,6 +15,7 @@ import {
   useMediaQuery,
 } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 function SerieView({ serie }) {
   const [currentEpisode, setCurrentEpisode] = useState();
@@ -39,37 +40,43 @@ function SerieView({ serie }) {
   return (
     <Flex overflow="hidden" flex="1 1 auto" h="100%">
       {isLargerThan992 && (
-        <Box minW={380} w={380} flexShrink={0} minH="calc(100vh - 66px)">
-          <Box
-            position="relative"
-            borderRight={`1px solid ${borderColor}`}
-            minW="100%"
-            minH="calc(100vh - 66px)"
-          >
+        <Box
+          borderRight={`1px solid ${borderColor}`}
+          minW={380}
+          w={380}
+          minH="calc(100vh - 66px)"
+        >
+          <Box>
             <Box px={3} py={2}>
               <Heading as="h4" size="md">
                 {serie.name}
               </Heading>
             </Box>
             <Divider />
-            <Box>
-              <Accordion defaultIndex={[0]} allowMultiple>
-                {serie.seasons.map((season) => (
-                  <AccordionItem>
-                    <AccordionButton>
-                      <Box flex="1" textAlign="left">
-                        {season.name}
-                      </Box>
-                      <AccordionIcon />
-                    </AccordionButton>
-                    <AccordionPanel pb={4}>
-                      <List>
-                        {season.episodes.map((episode) => (
-                          <ListItem>
-                            <Box my={4}>
+            <Accordion defaultIndex={[0]} allowMultiple>
+              {serie.seasons.map((season) => (
+                <AccordionItem>
+                  <AccordionButton>
+                    <Box flex="1" textAlign="left">
+                      {season.name}
+                    </Box>
+                    <AccordionIcon />
+                  </AccordionButton>
+                  <AccordionPanel pb={4}>
+                    <List>
+                      {season.episodes.map((episode) => (
+                        <ListItem>
+                          <Link
+                            href={`/serie/${serie?.slug}?season=${season?.slug}&episode=${episode?.slug}`}
+                          >
+                            <Box my={4} cursor="pointer">
                               <Box
                                 mb="1"
-                                fontWeight="semibold"
+                                fontWeight={
+                                  episode?.slug === currentEpisode?.slug
+                                    ? 'xBold'
+                                    : 'normal'
+                                }
                                 as="h5"
                                 lineHeight="tight"
                                 isTruncated
@@ -78,29 +85,32 @@ function SerieView({ serie }) {
                               </Box>
                               <Box
                                 color="gray.500"
-                                fontWeight="semibold"
+                                fontWeight={
+                                  episode?.slug === currentEpisode?.slug
+                                    ? 'xBold'
+                                    : 'normal'
+                                }
                                 letterSpacing="wide"
                                 fontSize="xs"
                                 textTransform="uppercase"
                                 ml="2"
                               >
-                                {episode.videoTime} &bull; episódio{' '}
-                                {episode.order}
+                                {episode.videoTime} &bull; ep {episode.order}
                               </Box>
                             </Box>
-                          </ListItem>
-                        ))}
-                      </List>
-                    </AccordionPanel>
-                  </AccordionItem>
-                ))}
-              </Accordion>
-            </Box>
+                          </Link>
+                        </ListItem>
+                      ))}
+                    </List>
+                  </AccordionPanel>
+                </AccordionItem>
+              ))}
+            </Accordion>
           </Box>
         </Box>
       )}
 
-      <Flex flexGrow={1} direction="column" h="100%" overflowY="auto">
+      <Flex flexGrow={1} direction="column" overflowY="auto">
         <Flex
           overflow="hidden"
           w="100%"

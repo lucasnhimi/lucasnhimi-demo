@@ -2,21 +2,15 @@ import React from 'react';
 import NextLink from 'next/link';
 import {
   Box,
-  Button,
   Flex,
   Link,
-  Avatar,
   Icon,
   useColorMode,
   useColorModeValue,
 } from '@chakra-ui/react';
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 
-import useAuth from '@/hooks/useAuth';
-import Footer from './Footer';
-
 const Layout = ({ children }) => {
-  const { user } = useAuth();
   const { colorMode, toggleColorMode } = useColorMode();
   const bg = useColorModeValue('#FFFFFF', '#1A202C');
   const color = useColorModeValue('#1A202C', '#EDEEEE');
@@ -54,7 +48,7 @@ const Layout = ({ children }) => {
             <NextLink href="/" passHref>
               <Link mr={4}>Home</Link>
             </NextLink>
-            <NextLink href="/series" passHref>
+            <NextLink href="/#series" passHref>
               <Link>Séries</Link>
             </NextLink>
           </Flex>
