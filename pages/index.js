@@ -4,10 +4,8 @@ import {
   Flex,
   Text,
   Box,
-  Code,
   SimpleGrid,
   useColorModeValue,
-  Stack,
   Wrap,
   WrapItem,
   Center,
@@ -23,11 +21,6 @@ const technologies = [
   { logo: '/logos/javascript.svg', name: 'JavaScript' },
   { logo: '/logos/typescript.svg', name: 'TypeScript' },
   { logo: '/logos/nextjs-3.svg', name: 'Next.js' },
-  // { logo: '/logos/aws.svg', name: 'AWS' },
-  // { logo: '/logos/mongodb.svg', name: 'MongoDB' },
-  // { logo: '/logos/dotnet.svg', name: '.NET Core' },
-  // { logo: '/logos/git.svg', name: 'Git' },
-  // { logo: '/logos/github.svg', name: 'Github' },
 ];
 
 const Cover = () => {
@@ -36,21 +29,8 @@ const Cover = () => {
   return (
     <Box bgColor={bg}>
       <Flex justifyContent="center" alignItems="center" py={20}>
-        <Flex
-          px={12}
-          py={20}
-          w="full"
-          maxW="1200px"
-          direction="column"
-          // alignItems="center"
-        >
-          <Heading
-            as="h1"
-            size="4xl"
-            mb={4}
-            fontWeight="xBold"
-            // textAlign="center"
-          >
+        <Flex px={12} py={20} w="full" maxW="1200px" direction="column">
+          <Heading as="h1" size="4xl" mb={4} fontWeight="xBold">
             Aprenda programação
             <Box>direto ao ponto </Box>
             <Box bgGradient="linear(to-l, #7928CA,#FF0080)" bgClip="text">
@@ -104,23 +84,6 @@ const Cover = () => {
                 </WrapItem>
               ))}
             </Wrap>
-            {/* <Stack direction={['column', 'row']}>
-              {technologies.map((tech) => (
-                <Box
-                  maxW="sm"
-                  borderWidth="1px"
-                  borderRadius="lg"
-                  overflow="hidden"
-                  p={4}
-                  display="flex"
-                  flexDirection="column"
-                  alignItems="center"
-                  justifyContent="center"
-                  w="120px"
-                  minW="120px"
-                />
-              ))}
-            </Stack> */}
           </Box>
         </Flex>
       </Flex>
