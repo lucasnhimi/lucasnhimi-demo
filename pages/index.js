@@ -73,7 +73,7 @@ const Cover = () => {
             </Button>
           </Box>
           <Box>
-            <Stack direction="row">
+            <Stack direction={['column', 'row']}>
               {technologies.map((tech) => (
                 <Box
                   maxW="sm"
