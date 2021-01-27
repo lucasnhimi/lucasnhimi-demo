@@ -8,6 +8,9 @@ import {
   SimpleGrid,
   useColorModeValue,
   Stack,
+  Wrap,
+  WrapItem,
+  Center,
 } from '@chakra-ui/react';
 import Layout from '@/components/Layout';
 import SerieCard from '@/components/SerieCard';
@@ -73,7 +76,35 @@ const Cover = () => {
             </Button>
           </Box>
           <Box>
-            <Stack direction={['column', 'row']}>
+            <Wrap>
+              {technologies.map((tech) => (
+                <WrapItem>
+                  <Center
+                    w="120px"
+                    h="120px"
+                    borderWidth="1px"
+                    borderRadius="lg"
+                    overflow="hidden"
+                    flexDirection="column"
+                  >
+                    <img
+                      src={tech.logo}
+                      alt={tech.name}
+                      style={{ width: '40px', height: '40px' }}
+                    />
+                    <Text
+                      fontSize="sm"
+                      textAlign="center"
+                      fontWeight="bold"
+                      mt={2}
+                    >
+                      {tech.name}
+                    </Text>
+                  </Center>
+                </WrapItem>
+              ))}
+            </Wrap>
+            {/* <Stack direction={['column', 'row']}>
               {technologies.map((tech) => (
                 <Box
                   maxW="sm"
@@ -87,18 +118,9 @@ const Cover = () => {
                   justifyContent="center"
                   w="120px"
                   minW="120px"
-                >
-                  <img
-                    src={tech.logo}
-                    alt={tech.name}
-                    style={{ width: '40px', height: '40px' }}
-                  />
-                  <Text fontSize="sm" textAlign="center" fontWeight="bold">
-                    {tech.name}
-                  </Text>
-                </Box>
+                />
               ))}
-            </Stack>
+            </Stack> */}
           </Box>
         </Flex>
       </Flex>
