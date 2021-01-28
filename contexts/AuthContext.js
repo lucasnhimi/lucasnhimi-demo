@@ -1,7 +1,8 @@
-import { useState, createContext } from 'react';
+import { useState, createContext, useEffect } from 'react';
 import Router from 'next/router';
 import firebase from '@/lib/firebase';
 import { createUser } from '@/lib/db';
+import cookie from 'js-cookie';
 
 const AuthContext = createContext();
 
@@ -9,7 +10,7 @@ const formatUser = async (user) => ({
   uid: user.uid,
   email: user.email,
   name: user.displayName,
-  token: user.xa,
+  token: user.za,
   provider: user.providerData[0].providerId,
   photoUrl: user.photoURL,
 });
@@ -21,11 +22,19 @@ export function AuthProvider({ children }) {
   const handleUser = async (currentUser) => {
     if (currentUser) {
       const formatedUser = await formatUser(currentUser);
-      createUser(formatedUser.uid, formatedUser);
+      const { token, ...userWithoutToken } = formatedUser;
+
+      createUser(formatedUser.uid, userWithoutToken);
       setUser(formatedUser);
+      cookie.set('fast-feedback-auth', true, {
+        expires: 1,
+      });
+
       return formatedUser;
     }
     setUser(false);
+    cookie.remove('fast-feedback-auth');
+
     return false;
   };
 
@@ -37,7 +46,7 @@ export function AuthProvider({ children }) {
         .signInWithPopup(new firebase.auth.GithubAuthProvider())
         .then((response) => {
           handleUser(response.user);
-          Router.push('/dashboard');
+          // Router.push('/dashboard');
         });
     } finally {
       setLoading(false);
@@ -56,6 +65,12 @@ export function AuthProvider({ children }) {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    const unsubscribe = firebase.auth().onIdTokenChanged(handleUser);
+
+    return () => unsubscribe();
+  }, []);
 
   return (
     <AuthContext.Provider

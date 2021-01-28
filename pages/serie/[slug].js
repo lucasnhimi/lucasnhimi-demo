@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import SerieView from '@/components/SerieView';
 import { getAllFullSeries } from '@/lib/dato-cms';
 import Layout from '@/components/Layout';
@@ -5,6 +6,17 @@ import Layout from '@/components/Layout';
 export default function StagePage({ serie, allSeries }) {
   return (
     <Layout>
+      <Head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              if (!document.cookie || !document.cookie.includes('fast-feedback-auth')) {
+                window.location.href = "/"
+              }
+            `,
+          }}
+        />
+      </Head>
       <SerieView serie={serie} allSeries={allSeries} />
     </Layout>
   );
