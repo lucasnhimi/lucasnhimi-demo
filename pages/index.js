@@ -15,6 +15,7 @@ import {
 } from '@chakra-ui/react';
 import Layout from '@/components/Layout';
 import SerieCard from '@/components/SerieCard';
+import Footer from '@/components/Footer';
 import { getAllSeries, getAllTechnologies } from '@/lib/dato-cms';
 
 const Cover = ({ technologies }) => {
@@ -155,6 +156,7 @@ function Home({ series, technologies }) {
       <Box pb={10}>
         <Cover technologies={technologies} />
         <Series series={series} />
+        <Footer />
       </Box>
     </Layout>
   );

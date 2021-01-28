@@ -19,7 +19,7 @@ function SerieCard({ serie }) {
               textTransform="uppercase"
               ml="2"
             >
-              {serie.seasons.length} temporadas
+              {serie.seasons.length} temporada(s)
             </Box>
           </Box>
 
