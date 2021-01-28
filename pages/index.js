@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import Image from 'next/image';
 import {
   Heading,
   Button,
@@ -9,35 +11,51 @@ import {
   Wrap,
   WrapItem,
   Center,
+  Link,
 } from '@chakra-ui/react';
 import Layout from '@/components/Layout';
 import SerieCard from '@/components/SerieCard';
-import { getAllSeries } from '@/lib/dato-cms';
+import { getAllSeries, getAllTechnologies } from '@/lib/dato-cms';
 
-const technologies = [
-  { logo: '/logos/react2.svg', name: 'React.js' },
-  { logo: '/logos/node.svg', name: 'Node.js' },
-  { logo: '/logos/graphql.svg', name: 'Graphql' },
-  { logo: '/logos/javascript.svg', name: 'JavaScript' },
-  { logo: '/logos/typescript.svg', name: 'TypeScript' },
-  { logo: '/logos/nextjs-3.svg', name: 'Next.js' },
-];
-
-const Cover = () => {
+const Cover = ({ technologies }) => {
   const bg = useColorModeValue('#FFFFFF', '#1A202C');
+  const [currentTechnologies, setTechnologies] = useState(technologies);
+
+  const handleShowAllTechnologies = () => {
+    const tecs = currentTechnologies.map((t) => {
+      t.defaultVisible = true;
+      return t;
+    });
+    setTechnologies(tecs);
+  };
+
+  const hiddenTechnologies = currentTechnologies?.filter(
+    (t) => !t.defaultVisible,
+  ).length;
 
   return (
     <Box bgColor={bg}>
       <Flex justifyContent="center" alignItems="center" py={20}>
-        <Flex px={12} py={20} w="full" maxW="1200px" direction="column">
-          <Heading as="h1" size="4xl" mb={4} fontWeight="xBold">
+        <Flex
+          px={[4, 8]}
+          py={[0, 20]}
+          w="full"
+          maxW="1200px"
+          direction="column"
+        >
+          <Heading
+            as="h1"
+            fontSize={{ base: '42px', md: '52px', lg: '72px' }}
+            mb={4}
+            fontWeight="xBold"
+          >
             Aprenda programação
             <Box>direto ao ponto </Box>
             <Box bgGradient="linear(to-l, #7928CA,#FF0080)" bgClip="text">
               100% free.
             </Box>
           </Heading>
-          <Text fontSize="xl">
+          <Text fontSize={{ base: '16px', md: '20px', lg: '22px' }}>
             <Box>
               Mantenha seus conhecimentos atualizados com as mais novas{' '}
             </Box>
@@ -48,7 +66,7 @@ const Cover = () => {
               as="a"
               my={10}
               colorScheme="purple"
-              variant="solid"
+              variant="outline"
               size="lg"
               href="#series"
             >
@@ -57,32 +75,59 @@ const Cover = () => {
           </Box>
           <Box>
             <Wrap>
-              {technologies.map((tech) => (
+              {currentTechnologies
+                ?.filter((f) => f.defaultVisible)
+                ?.map((tech) => (
+                  <WrapItem>
+                    <Center
+                      w="100px"
+                      h="100px"
+                      borderWidth="1px"
+                      borderRadius="lg"
+                      overflow="hidden"
+                      flexDirection="column"
+                    >
+                      <Image
+                        src={tech.logo.url}
+                        alt={tech.name}
+                        width={40}
+                        height={40}
+                        title={tech.name}
+                      />
+                      <Text
+                        fontSize="sm"
+                        textAlign="center"
+                        fontWeight="bold"
+                        mt={2}
+                      >
+                        {tech.name}
+                      </Text>
+                    </Center>
+                  </WrapItem>
+                ))}
+              {hiddenTechnologies > 0 && (
                 <WrapItem>
                   <Center
-                    w="120px"
-                    h="120px"
+                    w="100px"
+                    h="100px"
                     borderWidth="1px"
                     borderRadius="lg"
                     overflow="hidden"
                     flexDirection="column"
                   >
-                    <img
-                      src={tech.logo}
-                      alt={tech.name}
-                      style={{ width: '40px', height: '40px' }}
-                    />
-                    <Text
-                      fontSize="sm"
-                      textAlign="center"
-                      fontWeight="bold"
-                      mt={2}
-                    >
-                      {tech.name}
-                    </Text>
+                    <Link onClick={handleShowAllTechnologies}>
+                      <Text
+                        fontSize="sm"
+                        textAlign="center"
+                        fontWeight="bold"
+                        mt={2}
+                      >
+                        {`+${hiddenTechnologies} outras`}
+                      </Text>
+                    </Link>
                   </Center>
                 </WrapItem>
-              ))}
+              )}
             </Wrap>
           </Box>
         </Flex>
@@ -93,7 +138,7 @@ const Cover = () => {
 
 const Series = ({ series }) => (
   <Flex id="series" justify="center">
-    <Flex w="full" maxW="1200px" px={8} mt={10} direction="column">
+    <Flex w="full" maxW="1200px" px={[4, 8]} mt={10} direction="column">
       <Heading mb={4}>Séries</Heading>
       <SimpleGrid columns={[1, null, 3]} spacing="40px">
         {series.map((serie) => (
@@ -104,11 +149,11 @@ const Series = ({ series }) => (
   </Flex>
 );
 
-function Home({ series }) {
+function Home({ series, technologies }) {
   return (
     <Layout>
       <Box pb={10}>
-        <Cover />
+        <Cover technologies={technologies} />
         <Series series={series} />
       </Box>
     </Layout>
@@ -117,10 +162,12 @@ function Home({ series }) {
 
 export const getStaticProps = async () => {
   const series = await getAllSeries();
+  const technologies = await getAllTechnologies();
 
   return {
     props: {
       series,
+      technologies,
     },
     revalidate: 120,
   };

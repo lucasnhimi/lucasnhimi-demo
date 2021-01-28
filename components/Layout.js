@@ -36,7 +36,7 @@ const Layout = ({ children }) => {
           maxW="1200px"
           margin="0 auto"
           w="full"
-          px={8}
+          px={[4, 8]}
           h="60px"
         >
           <Flex align="center">
