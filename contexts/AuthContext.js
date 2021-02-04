@@ -26,41 +26,36 @@ export function AuthProvider({ children }) {
 
       createUser(formatedUser.uid, userWithoutToken);
       setUser(formatedUser);
-      cookie.set('fast-feedback-auth', true, {
+      cookie.set('lucasnhimi-auth', true, {
         expires: 1,
       });
 
       return formatedUser;
     }
     setUser(false);
-    cookie.remove('fast-feedback-auth');
+    cookie.remove('lucasnhimi-auth');
 
     return false;
   };
 
-  const signin = () => {
+  const signin = async () => {
     try {
       setLoading(true);
-      return firebase
+      const response = await firebase
         .auth()
-        .signInWithPopup(new firebase.auth.GithubAuthProvider())
-        .then((response) => {
-          handleUser(response.user);
-          // Router.push('/dashboard');
-        });
+        .signInWithPopup(new firebase.auth.GithubAuthProvider());
+      handleUser(response.user);
     } finally {
       setLoading(false);
     }
   };
 
-  const signout = () => {
+  const signout = async () => {
     try {
+      setLoading(true);
       Router.push('/');
-
-      return firebase
-        .auth()
-        .signOut()
-        .then(() => handleUser(false));
+      await firebase.auth().signOut();
+      handleUser(false);
     } finally {
       setLoading(false);
     }
@@ -68,7 +63,6 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     const unsubscribe = firebase.auth().onIdTokenChanged(handleUser);
-
     return () => unsubscribe();
   }, []);
 

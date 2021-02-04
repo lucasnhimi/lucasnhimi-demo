@@ -1,18 +1,11 @@
 import { useRouter } from 'next/router';
 import { Box, Badge, Image, Text, Stack } from '@chakra-ui/react';
-import useAuth from '@/hooks/useAuth';
-import withAuthModal from './Auth';
 
-function SerieCard({ serie, openAuthModal }) {
-  const { user } = useAuth();
+function SerieCard({ serie }) {
   const router = useRouter();
 
   const handleClick = () => {
-    if (user) {
-      router.push(`/serie/${serie.slug}`);
-    } else {
-      openAuthModal();
-    }
+    router.push(`/serie/${serie.slug}`);
   };
 
   return (
@@ -69,4 +62,4 @@ function SerieCard({ serie, openAuthModal }) {
   );
 }
 
-export default withAuthModal(SerieCard);
+export default SerieCard;
