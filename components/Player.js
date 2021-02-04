@@ -12,11 +12,36 @@ import {
   ListItem,
   Heading,
   useColorModeValue,
+  Icon,
 } from '@chakra-ui/react';
 import Link from 'next/link';
+import useAuth from '@/hooks/useAuth';
+import { FaRegCheckCircle, FaRegCircle } from 'react-icons/fa';
 
-const NavBar = ({ serie, currentEpisode }) => {
+const NavBar = ({ serie, currentEpisode, onSaveHistory, allHistory = [] }) => {
   const borderColor = useColorModeValue('#DDD', '#27272A');
+  const { user } = useAuth();
+
+  const handleSaveHistory = (e, season, episode) => {
+    e.preventDefault();
+
+    const history = {
+      userName: user.name,
+      userId: user.uid,
+      episodeId: episode.id,
+      episodeName: episode.name,
+      serieId: serie.id,
+      serieName: serie.name,
+      seasonId: season.id,
+      seasonName: season.name,
+      createdAt: new Date(),
+    };
+
+    onSaveHistory(history);
+  };
+
+  const isFinished = (episodeId) =>
+    allHistory.find((f) => f.episodeId === episodeId);
 
   return (
     <Box
@@ -52,35 +77,51 @@ const NavBar = ({ serie, currentEpisode }) => {
                       <Link
                         href={`/player/${serie?.slug}/${season?.slug}/${episode?.slug}`}
                       >
-                        <Box my={4} cursor="pointer">
-                          <Box
-                            mb="1"
-                            fontWeight={
-                              episode?.slug === currentEpisode?.slug
-                                ? 'xBold'
-                                : 'normal'
-                            }
-                            as="h5"
-                            lineHeight="tight"
-                            isTruncated
-                          >
-                            {episode.name}
+                        <Flex alignItems="flex-start">
+                          <Box my={4} mr={2} cursor="pointer">
+                            {isFinished(episode.id) ? (
+                              <Icon as={FaRegCheckCircle} h={4} w={4} />
+                            ) : (
+                              <Icon
+                                as={FaRegCircle}
+                                h={4}
+                                w={4}
+                                onClick={(e) =>
+                                  handleSaveHistory(e, season, episode)
+                                }
+                              />
+                            )}
                           </Box>
-                          <Box
-                            color="gray.500"
-                            fontWeight={
-                              episode?.slug === currentEpisode?.slug
-                                ? 'xBold'
-                                : 'normal'
-                            }
-                            letterSpacing="wide"
-                            fontSize="xs"
-                            textTransform="uppercase"
-                            ml="2"
-                          >
-                            {episode.videoTime} &bull; ep {episode.order}
+                          <Box my={4} cursor="pointer">
+                            <Box
+                              mb="1"
+                              fontWeight={
+                                episode?.slug === currentEpisode?.slug
+                                  ? 'xBold'
+                                  : 'normal'
+                              }
+                              as="h5"
+                              lineHeight="tight"
+                              isTruncated
+                            >
+                              {episode.name}
+                            </Box>
+                            <Box
+                              color="gray.500"
+                              fontWeight={
+                                episode?.slug === currentEpisode?.slug
+                                  ? 'xBold'
+                                  : 'normal'
+                              }
+                              letterSpacing="wide"
+                              fontSize="xs"
+                              textTransform="uppercase"
+                              ml="2"
+                            >
+                              {episode.videoTime} &bull; ep {episode.order}
+                            </Box>
                           </Box>
-                        </Box>
+                        </Flex>
                       </Link>
                     </ListItem>
                   ))}
@@ -131,7 +172,7 @@ const Video = ({ currentEpisode }) => (
   </Flex>
 );
 
-function Player({ serie, seasonSlug, episodeSlug }) {
+function Player({ serie, seasonSlug, episodeSlug, onSaveHistory, allHistory }) {
   const [currentEpisode, setCurrentEpisode] = useState();
 
   useEffect(() => {
@@ -152,7 +193,12 @@ function Player({ serie, seasonSlug, episodeSlug }) {
 
   return (
     <Flex overflow="hidden" h="100%" direction={['column', 'row']}>
-      <NavBar serie={serie} currentEpisode={currentEpisode} />
+      <NavBar
+        serie={serie}
+        currentEpisode={currentEpisode}
+        onSaveHistory={onSaveHistory}
+        allHistory={allHistory}
+      />
       <Video currentEpisode={currentEpisode} />
     </Flex>
   );
