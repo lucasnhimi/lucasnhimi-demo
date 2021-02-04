@@ -11,6 +11,7 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
+  Heading,
 } from '@chakra-ui/react';
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 import useAuth from '@/hooks/useAuth';
@@ -44,10 +45,12 @@ function Topbar({ openAuthModal }) {
         px={[4, 8]}
         h="60px"
       >
-        <Flex align="center">
+        <Flex alignItems="center">
           <NextLink href="/" passHref>
             <Link>
-              <Icon name="save" size="24px" mr={8} />
+              <Heading size="md" mr={4} display={['none', 'block']}>
+                lucasnhimi.io
+              </Heading>
             </Link>
           </NextLink>
           <NextLink href="/" passHref>
