@@ -54,54 +54,12 @@ const SerieViewContent = ({ serie, openAuthModal }) => {
                   O que você irá aprender
                 </Heading>
                 <List spacing={3}>
-                  <ListItem>
-                    <ListIcon as={MdCheckCircle} color="green.500" />
-                    Next.js
-                  </ListItem>
-                  <ListItem>
-                    <ListIcon as={MdCheckCircle} color="green.500" />
-                    React.js
-                  </ListItem>
-                  <ListItem>
-                    <ListIcon as={MdCheckCircle} color="green.500" />
-                    Biblioteca de estilos Chakra-UI
-                  </ListItem>
-                  <ListItem>
-                    <ListIcon as={MdCheckCircle} color="green.500" />
-                    Git e Github
-                  </ListItem>
-                  <ListItem>
-                    <ListIcon as={MdCheckCircle} color="green.500" />
-                    Deploy na Vercel (Serverless)
-                  </ListItem>
-                  <ListItem>
-                    <ListIcon as={MdCheckCircle} color="green.500" />
-                    Firebase OAuth - Google e Github
-                  </ListItem>
-                  <ListItem>
-                    <ListIcon as={MdCheckCircle} color="green.500" />
-                    Firestore
-                  </ListItem>
-                  <ListItem>
-                    <ListIcon as={MdCheckCircle} color="green.500" />
-                    React Context API
-                  </ListItem>
-                  <ListItem>
-                    <ListIcon as={MdCheckCircle} color="green.500" />
-                    Tema claro e escuro (Light / Dark)
-                  </ListItem>
-                  <ListItem>
-                    <ListIcon as={MdCheckCircle} color="green.500" />
-                    Dato CMS (Headless CMS)
-                  </ListItem>
-                  <ListItem>
-                    <ListIcon as={MdCheckCircle} color="green.500" />
-                    GraphQL
-                  </ListItem>
-                  <ListItem>
-                    <ListIcon as={MdCheckCircle} color="green.500" />
-                    API Rest
-                  </ListItem>
+                  {serie.features?.map((feature) => (
+                    <ListItem>
+                      <ListIcon as={MdCheckCircle} color="green.500" />
+                      {feature.name}
+                    </ListItem>
+                  ))}
                 </List>
               </Box>
               <Divider />
