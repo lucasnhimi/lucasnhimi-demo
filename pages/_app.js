@@ -6,6 +6,7 @@ import NProgress from 'nprogress';
 import { Router } from 'next/dist/client/router';
 import theme from '@/styles/theme';
 import 'nprogress/nprogress.css';
+import 'react-perfect-scrollbar/dist/css/styles.css';
 
 NProgress.configure({
   showSpinner: false,
