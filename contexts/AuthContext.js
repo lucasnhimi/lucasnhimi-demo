@@ -19,6 +19,16 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  const setSession = (session) => {
+    if (session) {
+      cookie.set('lucasnhimi-auth', session, {
+        expires: 1,
+      });
+    } else {
+      cookie.remove('lucasnhimi-auth');
+    }
+  };
+
   const handleUser = async (currentUser) => {
     if (currentUser) {
       const formatedUser = await formatUser(currentUser);
@@ -26,15 +36,12 @@ export function AuthProvider({ children }) {
 
       createUser(formatedUser.uid, userWithoutToken);
       setUser(formatedUser);
-      cookie.set('lucasnhimi-auth', true, {
-        expires: 1,
-      });
+      setSession(true);
 
       return formatedUser;
     }
     setUser(false);
-    cookie.remove('lucasnhimi-auth');
-
+    setSession(false);
     return false;
   };
 

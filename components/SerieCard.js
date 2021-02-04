@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { Box, Badge, Image, Text, Stack } from '@chakra-ui/react';
+import { Box, Badge, Image, Text } from '@chakra-ui/react';
 
 function SerieCard({ serie }) {
   const router = useRouter();
@@ -52,10 +52,7 @@ function SerieCard({ serie }) {
         </Text>
 
         <Box d="flex" mt="3" alignItems="center">
-          <Stack direction="row">
-            <Badge>front-end</Badge>
-            <Badge>back-end</Badge>
-          </Stack>
+          <Badge>{serie.seriesType}</Badge>
         </Box>
       </Box>
     </Box>
