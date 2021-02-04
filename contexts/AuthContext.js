@@ -45,12 +45,24 @@ export function AuthProvider({ children }) {
     return false;
   };
 
-  const signin = async () => {
+  const signinWithGitHub = async () => {
     try {
       setLoading(true);
       const response = await firebase
         .auth()
         .signInWithPopup(new firebase.auth.GithubAuthProvider());
+      handleUser(response.user);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const signinWithGoogle = async () => {
+    try {
+      setLoading(true);
+      const response = await firebase
+        .auth()
+        .signInWithPopup(new firebase.auth.GoogleAuthProvider());
       handleUser(response.user);
     } finally {
       setLoading(false);
@@ -78,7 +90,8 @@ export function AuthProvider({ children }) {
       value={{
         user,
         loading,
-        signin,
+        signinWithGitHub,
+        signinWithGoogle,
         signout,
       }}
     >

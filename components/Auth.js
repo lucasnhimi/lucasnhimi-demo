@@ -13,11 +13,16 @@ import {
 import useAuth from '@/hooks/useAuth';
 
 const AuthModal = ({ isOpen, onClose }) => {
-  const { signin } = useAuth();
+  const { signinWithGitHub, signinWithGoogle } = useAuth();
 
-  const handleSignin = () => {
+  const handleSigninGithub = () => {
     onClose();
-    signin();
+    signinWithGitHub();
+  };
+
+  const handleSigninGoogle = () => {
+    onClose();
+    signinWithGoogle();
   };
 
   return (
@@ -35,7 +40,7 @@ const AuthModal = ({ isOpen, onClose }) => {
               serviços abaixo:
             </Text>
             <Button
-              onClick={() => handleSignin()}
+              onClick={() => handleSigninGoogle()}
               backgroundColor="white"
               color="gray.900"
               variant="outline"
@@ -51,7 +56,7 @@ const AuthModal = ({ isOpen, onClose }) => {
               Continuar com Google
             </Button>
             <Button
-              onClick={() => signin()}
+              onClick={() => handleSigninGithub()}
               backgroundColor="white"
               color="gray.900"
               variant="outline"
