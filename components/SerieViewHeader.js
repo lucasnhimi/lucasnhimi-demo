@@ -6,9 +6,22 @@ import {
   Text,
   Button,
 } from '@chakra-ui/react';
+import { useRouter } from 'next/router';
+import useAuth from '@/hooks/useAuth';
+import withAuthModal from './Auth';
 
-const SerieViewHeader = ({ serie }) => {
+const SerieViewHeader = ({ serie, openAuthModal }) => {
   const bg = useColorModeValue('#FFFFFF', '#1A202C');
+  const { user } = useAuth();
+  const router = useRouter();
+
+  const handleStartNow = () => {
+    if (!user) {
+      openAuthModal();
+    } else {
+      router.push(`/player/${serie.slug}`);
+    }
+  };
 
   return (
     <Box bgColor={bg}>
@@ -21,7 +34,9 @@ const SerieViewHeader = ({ serie }) => {
             {`ultima atualização ${serie.updatedAt}`}
           </Text>
           <Box>
-            <Button variant="outline">Começar agora</Button>
+            <Button onClick={handleStartNow} variant="outline">
+              Começar agora
+            </Button>
           </Box>
         </Flex>
       </Flex>
@@ -29,4 +44,4 @@ const SerieViewHeader = ({ serie }) => {
   );
 };
 
-export default SerieViewHeader;
+export default withAuthModal(SerieViewHeader);

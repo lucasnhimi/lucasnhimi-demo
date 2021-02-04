@@ -54,7 +54,10 @@ function Topbar({ openAuthModal }) {
             <Link mr={4}>Home</Link>
           </NextLink>
           <NextLink href="/#series" passHref>
-            <Link>Séries</Link>
+            <Link mr={4}>Séries</Link>
+          </NextLink>
+          <NextLink href="/about" passHref>
+            <Link>Sobre</Link>
           </NextLink>
         </Flex>
         <Flex justifyContent="center" alignItems="center">
