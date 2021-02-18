@@ -1,4 +1,3 @@
-// import Head from 'next/head';
 import Player from '@/components/Player';
 import Layout from '@/components/Layout';
 import fetcher from '@/utils/fetcher';
