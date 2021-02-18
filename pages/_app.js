@@ -5,8 +5,10 @@ import { Global, css } from '@emotion/react';
 import NProgress from 'nprogress';
 import { Router } from 'next/dist/client/router';
 import theme from '@/styles/theme';
+import { DefaultSeo } from 'next-seo';
 import 'nprogress/nprogress.css';
 import 'react-perfect-scrollbar/dist/css/styles.css';
+import SEO from '../next-seo.config';
 
 NProgress.configure({
   showSpinner: false,
@@ -65,6 +67,7 @@ function App({ Component, pageProps }) {
     <>
       <ChakraProvider theme={myTheme}>
         <AuthProvider>
+          <DefaultSeo {...SEO} />
           <GlobalStyle />
           <Component {...pageProps} />
         </AuthProvider>

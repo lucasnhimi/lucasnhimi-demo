@@ -4,7 +4,11 @@ import SerieView from '@/components/SerieView';
 
 export default function StagePage({ serie, allSeries }) {
   return (
-    <Layout>
+    <Layout
+      title={serie.name}
+      path={`/${serie.slug}`}
+      description={serie.description}
+    >
       <SerieView serie={serie} />
     </Layout>
   );

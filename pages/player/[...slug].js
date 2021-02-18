@@ -35,7 +35,11 @@ export default function PlayerPage() {
   };
 
   return (
-    <Layout>
+    <Layout
+      title={serie?.name}
+      path={`/${fullQuery}`}
+      description={serie?.description}
+    >
       <Head>
         <script
           // eslint-disable-next-line react/no-danger
