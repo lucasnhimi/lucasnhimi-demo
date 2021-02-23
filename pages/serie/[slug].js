@@ -2,7 +2,7 @@ import { getAllFullSeries } from '@/lib/dato-cms';
 import Layout from '@/components/Layout';
 import SerieView from '@/components/SerieView';
 
-export default function StagePage({ serie, allSeries }) {
+export default function StagePage({ serie }) {
   return (
     <Layout
       title={serie.name}
